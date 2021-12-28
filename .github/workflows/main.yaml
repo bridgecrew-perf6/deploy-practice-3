@@ -1,0 +1,23 @@
+## gitea に同期するようの actions
+name: main
+
+on:
+  push:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set config
+        run: |
+          chmod 600 ~/.ssh/deploy_key
+          git config --local user.email "github@actions"
+          git config --local user.name "hackathon-21-winter-18"
+      - name: Push changes
+        env:
+          GIT_SSH_COMMAND: ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -F /dev/null
+        run: |
+          git fetch --unshallow origin
+          git push -f ssh://git@git.trap.jp:2200/hackathon-21-winter-18/deploy-practice.git
