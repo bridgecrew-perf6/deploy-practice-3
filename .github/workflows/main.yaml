@@ -1,8 +1,7 @@
 ## gitea に同期するようの actions
 name: main
 
-on:
-  push:
+on: push
 
 jobs:
   sync:
